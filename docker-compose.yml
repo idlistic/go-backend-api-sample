@@ -1,0 +1,22 @@
+services:
+  db:
+    image: postgres:16
+    container_name: go_backend_api_sample_db
+    environment:
+      POSTGRES_USER: go_backend_api
+      POSTGRES_PASSWORD: go_backend_api
+      POSTGRES_DB: go_backend_api_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./migrations:/migrations
+      - ./seed:/seed
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d appdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:
